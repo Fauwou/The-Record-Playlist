@@ -1,4 +1,4 @@
-# Group Repository for COMP SCI 2207/7207 Web & Database Computing Web Application Project (2023 Semester 1)
+# Group Repository for COMP SCI 2207/7207 Web & Database Computing Web Application Project (2025 Semester 1)
 
 
 # DESCRIPTION
@@ -18,7 +18,6 @@ The Record Playlist is a Spotify-adjacent tool and website used to easily naviga
 
 
 
-
 # List of Features & Functionality
 - Basic webpage layout with separate pages for separate information
 - Interactive U.I containing dropdowns, filter buttons, modal boxes, collapsible sections
@@ -29,7 +28,6 @@ The Record Playlist is a Spotify-adjacent tool and website used to easily naviga
 - Location of current pages are displayed through the three accessible buttons in the navigation bar
 - Information in library.html can be shown and hidden using the buttons via a filter
 - Sign in logs the user's information into the "User" table in appDatabases (Database.sql)
-
 
 
 # Known Bugs or Limitations
@@ -48,17 +46,3 @@ The Record Playlist is a Spotify-adjacent tool and website used to easily naviga
 
 - Spotify API Request Limit
     - As Spotify limits their IDs for multiple different categories, ranging from 10 to 50 per request, it made it difficult to implement our original goals in a certain way. We originally wanted to have a search bar that would allow for searching any music, artist, or album throughout Spotify's database. This quickly was shown to not be possible given the conditions, which would lead to a timeout or possible ban if we overloaded Spotify's API with requests.
-
-
-Your group's shared repository for the WDC 2023 Web App Project.
-
-Auto commit/push/sync to Github is disabled by default in this repository.
-- Enable the GitDoc extension to use this fucntionality (either in your VSCode settings, or in the Dev Container settings)
-Auto commit/push/sync to Github is disabled by default in this repository.
-- Enable the GitDoc extension to use this fucntionality (either in your VSCode settings, or in the Dev Container settings)
-
-See [HERE](https://myuni.adelaide.edu.au/courses/85266/pages/2023-web-application-group-project-specification) for the project specification.
-
-We recommend using the 'Shared Repository Model (Branch & Pull)' to collaborate on your work in this single repostory.
-- You can read more about collaborating on GitHub repositories [HERE](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests)
-- When working on the same file at the same time, the 'Live Share' feature in VSCode can also help.
