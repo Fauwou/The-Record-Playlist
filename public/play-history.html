@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+        <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////ADs3MgArKysAoWVQANnV0AD88u4A8cm4AJqYlQB8TDcAVFFMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERJmQAAAABERJmZmQAABERJmZmZkABERHd3d5mZAERHIiMzeZkERHIiIzM3mZREcoEjMzeZlERyohUzN5mURHIiFTM3mUREYiIjMzeUREQSIiMzN0RAREciIzN0RABERHd3d0REAAREREREREAAAEREREREAAAAAERERAAAD4HwAA4AcAAMADAACAAQAAgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIABAACAAQAAwAMAAOAHAAD4HwAA" rel="icon" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Play History - The Record Playlist</title>
+
+    <style>
+        /* PLAY HISTORY PAGE */
+.history-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  padding: 10px 0;
+}
+
+.filter-button {
+  background-color: #1c2a45;
+  color: #f77a51;
+  border: 1px solid #f77a51;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.filter-button:hover {
+  background-color: #f77a51;
+  color: black;
+}
+
+.history-entry {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px;
+  background-color: #152238;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border-left: 3px solid #f77a51;
+  transition: transform 0.2s ease;
+}
+
+.history-entry:hover {
+  transform: translateX(5px);
+  background-color: #1a2540;
+}
+
+.entry-artwork img {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.entry-details {
+  flex-grow: 1;
+}
+
+.entry-title {
+  color: #f77a51;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.entry-artist, .entry-album {
+  color: #bcc9d6;
+  font-size: 14px;
+  margin: 3px 0;
+}
+
+.entry-meta {
+  text-align: right;
+  min-width: 100px;
+}
+
+.entry-date, .entry-time {
+  color: #8991a0;
+  font-size: 13px;
+  margin: 3px 0;
+}
+
+.filter-btn {
+  background-color: #1c2a45;
+  color: #bcc9d6;
+  border: 1px solid #3a3d5c;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover, .filter-btn.active {
+  background-color: #f77a51;
+  color: black;
+  border-color: #f77a51;
+}
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar"> <!--id="main"-->
+            <div class="navbar-left">
+                <img src="./Lo_images/176521.png" style="height: 34px;" alt="mis.">
+                <a href="index.html" class="logo">The Record Playlist</a>
+            </div>
+            <div class="navbar-center">
+                <ul class="nav-links">
+                    <li v-for="item in tabs" :key="item">
+                        <a :href="item.url" :class="{ 'active-tab': activating(item) }"> {{ item.title }} </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-right">
+
+            <button type="button" class="theme-toggle">
+                <i class="fa fa-moon-o"></i>
+                <span class="theme-text" style="margin-left:5px">Dark</span>
+            </button>
+
+                <button type="button" class="nav-login-btn" @click="handleLoginClick">
+                    <img v-if="isLoggedIn" src="./Lo_images/default-pfp.png" class="profile-icon" alt="Profile">
+                    <span v-else>{{ loginText }}</span>
+                </button>
+                </div>
+        </nav>
+    </div>
+
+
+
+    <div class="profile-wrapper">
+        <div class="profile-sidebar">
+            <div class="profile-header">
+                <h1>TRP</h1>
+            </div>
+            <div class="profile-nav">
+                <ul>
+                    <li><a href="./profile.html">profile</a></li>
+                    <li><a href="#">liked songs</a></li>
+                    <li><a href="#">genres</a></li>
+                    <li><a href="#">lists</a></li>
+                    <li><a href="#">account</a></li>
+                    <!--<li>
+                        <li><a href="#">new music</a></li>
+                        <li><a href="#">charts</a></li>
+                        <a href="#">subscribe</a></li>-->
+                </ul>
+                <!--<div class="search-box">
+                    <input type="text" placeholder="Search...">
+                </div>-->
+            </div>
+
+            <div class="user-info">
+                <p></p> <!-- customisable description, input it based on profile creation, age / gender -->
+                <ul style="padding-top: 20px;">
+                   <!--<li><a href="#">Inbox</a></li>
+                    <li><a href="#" style="padding-left: 10px;">0 messages / 0 new</a></li>-->
+
+                <!-- <li><a href="#">photos</a></li> -->
+                    <!--<li><a href="#">friends</a></li>-->
+                </ul>
+            </div>
+        </div>
+
+
+
+        <div class="profile-main">
+            <div class="profile-content">
+                <div class="profile-username">
+                    <h2><span id="displayName">Play History</span></h2>
+                </div>
+
+                <div class="profile-divider"></div>
+
+                <div class="profile-section">
+                    <div class="play-history-header">
+                        <h3>total plays (<span id="total-plays">0</span>)</h3>
+                        <button class="filter-button" id="filter-history">Filter</button>
+                    </div>
+                    <div class="history-filters" style="display: none;">
+                        <button class="filter-btn active">All</button>
+                        <button class="filter-btn">This Week</button>
+                        <button class="filter-btn">This Month</button>
+                        <button class="filter-btn">This Year</button>
+                    </div>
+                    <div id="play-history">
+                        <div class="history-entry">
+                            <div class="entry-artwork">
+                                <img src="https://via.placeholder.com/50" alt="Album Art">
+                            </div>
+                            <div class="entry-details">
+                                <p class="entry-title">Song Name</p>
+                                <p class="entry-artist">Artist Name</p>
+                                <p class="entry-album">Album Name</p>
+                            </div>
+                            <div class="entry-meta">
+                                <p class="entry-date">05/17/2025</p>
+                                <p class="entry-time">14:30</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="./scripts/script.js"></script>
+    <script type="module">
+        import { timeForThemes } from './scripts/theme.js';
+
+    timeForThemes();
+        </script>
+    <script>
+        Vue.createApp({
+            data() {
+                return {
+                    tabs: [
+                        { title: 'home', url: '/index.html' },
+                        { title: 'library', url: '/library.html' },
+                        { title: 'music', url: '/music.html' },
+                       // { title: 'Ratings', url: '/ratings.html' },
+                    ]
+                }
+            },
+            methods: {
+                activating(item) {
+                    return window.location.pathname.endsWith(item.url)
+                }
+            }
+        }).mount('#app')
+
+        document.addEventListener('DOMContentLoaded', function()
+        {
+            // filter button click bit
+            const filterBtn = document.getElementById('filter-history')
+            const filters = document.querySelector('.history-filters')
+
+            filterBtn.addEventListener('click', function() {
+                if (filters.style.display === 'none') {
+                    filters.style.display = 'block'
+                } else {
+                    filters.style.display = 'none'
+                }
+            })
+            const filterButtons = document.querySelectorAll('.filter-btn')
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function()
+                {
+                    filterButtons.forEach(b => b.classList.remove('active'))
+                    this.classList.add('active');
+                })
+            })
+
+    
+            function loadPlayHistory() {
+                // This would be replaced with actual data loading (if we had time that is)
+                const historyData = [
+                    {
+                        title: "Bohemian Rhapsody",
+                        artist: "Queen",
+                        album: "A Night at the Opera",
+                        date: "05/17/2025",
+                        time: "14:30",
+                        artwork: "https://via.placeholder.com/50"
+                    },
+                    {
+                        title: "Hotel California",
+                        artist: "Eagles",
+                        album: "Hotel California",
+                        date: "05/16/2025",
+                        time: "12:45",
+                        artwork: "https://via.placeholder.com/50"
+                    }
+                ]
+
+                const historyContainer = document.getElementById('play-history')
+                historyContainer.innerHTML = ''
+
+                historyData.forEach(item => {
+                    const entry = document.createElement('div')
+                    entry.className = 'history-entry'
+                    entry.innerHTML = `
+                        <div class="entry-artwork">
+                            <img src="${item.artwork}" alt="Album Art">
+                        </div>
+                        <div class="entry-details">
+                            <p class="entry-title">${item.title}</p>
+                            <p class="entry-artist">${item.artist}</p>
+                            <p class="entry-album">${item.album}</p>
+                        </div>
+                        <div class="entry-meta">
+                            <p class="entry-date">${item.date}</p>
+                            <p class="entry-time">${item.time}</p>
+                        </div>
+                    `
+                    historyContainer.appendChild(entry)
+                });
+
+                document.getElementById('total-plays').textContent = historyData.length
+            }
+
+            loadPlayHistory();
+        });
+    </script>
+</body>
+</html>

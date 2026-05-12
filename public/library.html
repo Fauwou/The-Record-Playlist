@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+        <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////ADs3MgArKysAoWVQANnV0AD88u4A8cm4AJqYlQB8TDcAVFFMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERJmQAAAABERJmZmQAABERJmZmZkABERHd3d5mZAERHIiMzeZkERHIiIzM3mZREcoEjMzeZlERyohUzN5mURHIiFTM3mUREYiIjMzeUREQSIiMzN0RAREciIzN0RABERHd3d0REAAREREREREAAAEREREREAAAAAERERAAAD4HwAA4AcAAMADAACAAQAAgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIABAACAAQAAwAMAAOAHAAD4HwAA" rel="icon" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Library - The Record Playlist</title>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar"> <!--id="main"-->
+            <div class="navbar-left"><!--id="nav"-->
+                <img src="./Lo_images/176521.png" style="height: 34px;" alt="mis.">
+                <a href="index.html" class="logo">The Record Playlist</a> <!-- <a style="color:white;"> |</a>-->
+            </div>
+            <div class="navbar-center">
+                <ul class="nav-links">
+                    <li v-for="item in tabs" :key="item">
+                        <a :href="item.url" :class="{ 'active-tab': activating(item) }"> {{ item.title }} </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-right">
+                <!--<div class="button-groupss">-->
+                <!--<div class="search-container">id="search-bar"
+                    <i class="fa fa-search"></i>
+                    <input type="search" placeholder="search">
+                </div>
+            </div>-->
+
+            <button type="button" class="theme-toggle">
+                <i class="fa fa-moon-o"></i>
+                <span class="theme-text" style="margin-left:5px">Dark</span>
+            </button>
+
+                <button type="button" class="nav-login-btn" @click="handleLoginClick"> <!--@click="handleLoginClick"-->
+                    <img v-if="isLoggedIn" src="./Lo_images/default-pfp.png" class="profile-icon" alt="Profile">
+                    <span v-else>{{ loginText }}</span> <!--onclick="loginauthenticate()-->
+                </button>
+                </div>
+        </nav>
+    </div>
+
+
+
+
+  <!-- FILTER BAR -->
+  <section class="library-filter">
+    <button type="button" class="filter-btn" onclick="display_albums()">Albums</button>
+    <button type="button" class="filter-btn" onclick="display_songs()">Liked</button>
+    <button type="button" class="filter-btn" onclick="display_artists()">Artists</button>
+    <button type="button" class="filter-btn" onclick="display_playlists()">Playlists</button>
+  </section>
+
+
+  <!-- album container -->
+  <section class="library-content">
+    <div id="album-container">
+  <a class="btrack-header"><h1 style="padding-left: 15px; padding-bottom: 5px;">Albums</h1></a>
+
+    <div class="track-header">
+      <a style="padding-left: 20px; padding-right: 10px"> No. </a>
+      <a style="padding-right: 370px;">| Album(s) </a>
+    </div>
+</div>
+    <div id="albums-container" class="song-list">
+      <p class="prompt-message">Loading album...</p>
+    </div>
+  </section>
+
+
+
+  <!-- liked song content -->
+  <section class="library-content">
+    <div id="liked-container">
+    <a class="btrack-header"><h1 style="padding-left: 15px; padding-bottom: 5px;">Liked</h1></a>
+    <!--No.   |   Name              | Artist(s)  |   Rating   | Length -->
+    <div class="track-header">
+      <a style="padding-left: 20px; padding-right: 10px"> No. </a>
+      <a style="padding-right: 310px;">| Name </a>
+      <a style="padding-right: 100px">| Artist(s) </a>
+      <a style="padding-right: 530px;"></a>
+      <a>| Length</a>
+    </div>
+  </div>
+    <div id="songs-container" class="song-list">
+      <p class="prompt-message">Loading your liked songs...</p>
+    </div>
+  </section>
+
+  <!-- artist content -->
+  <section class="library-content">
+    <div id="artist-container">
+      <a class="btrack-header"><h1 style="padding-left: 15px; padding-bottom: 5px;">Artists</h1></a>
+
+    <div class="track-header">
+      <a style="padding-left: 20px; padding-right: 10px"> No. </a>
+      <a style="padding-right: 370px;">| Artist(s) </a>
+      <a style="padding-right: 100px">| Genre </a>
+    </div>
+    </div>
+
+    <div id="artists-container" class="song-list">
+      <p class="prompt-message">Loading artists...</p>
+    </div>
+  </section>
+
+  <!-- playist container -->
+  <section class="library-content">
+    <div id="playlists-container">
+      <a class="btrack-header"><h1 style="padding-left: 15px; padding-bottom: 5px;">Playlists</h1></a>
+
+    <div class="track-header">
+      <a style="padding-left: 20px; padding-right: 10px"> No. </a>
+      <a style="padding-right: 370px;">| Playlist(s) </a>
+    </div>
+</div>
+
+    <div id="playlist-container" class="song-list">
+      <p class="prompt-message">Loading playist...</p>
+    </div>
+  </section>
+
+
+
+
+
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="./scripts/library.js"></script>
+  <script type="module">
+    import { timeForThemes } from './scripts/theme.js';
+
+    Vue.createApp({
+      data() {
+        return {
+          tabs: [
+            { title: 'home', url: '/index.html' },
+            { title: 'library', url: '/library.html' },
+            { title: 'music', url: '/music.html' },
+            //{ title: 'ratings', url: '/ratings.html' },
+            /* { title: 'Login', url: '/login' }*/
+          ]
+        };
+      },
+      methods: {
+        activating(item) {
+          return window.location.pathname.endsWith(item.url);
+        }
+      }
+    }).mount('#app');
+
+ timeForThemes();
+  </script>
+</body>
+
+</html>

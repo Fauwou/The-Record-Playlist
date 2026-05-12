@@ -1,0 +1,333 @@
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./stylesheets/style.css">
+            <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////ADs3MgArKysAoWVQANnV0AD88u4A8cm4AJqYlQB8TDcAVFFMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERJmQAAAABERJmZmQAABERJmZmZkABERHd3d5mZAERHIiMzeZkERHIiIzM3mZREcoEjMzeZlERyohUzN5mURHIiFTM3mUREYiIjMzeUREQSIiMzN0RAREciIzN0RABERHd3d0REAAREREREREAAAEREREREAAAAAERERAAAD4HwAA4AcAAMADAACAAQAAgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIABAACAAQAAwAMAAOAHAAD4HwAA" rel="icon" type="image/x-icon">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>User Profile - The Record Playlist</title>
+
+    </head>
+
+    <body>
+        <div id="app">
+            <nav class="navbar"> <!--id="main"-->
+                <div class="navbar-left">
+                    <img src="./Lo_images/176521.png" style="height: 34px;" alt="mis.">
+                    <a href="index.html" class="logo">The Record Playlist</a>
+                </div>
+                <div class="navbar-center">
+                    <ul class="nav-links">
+                        <li v-for="item in tabs" :key="item">
+                            <a :href="item.url" :class="{ 'active-tab': activating(item) }"> {{ item.title }} </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar-right">
+
+                <button type="button" class="theme-toggle">
+                    <i class="fa fa-moon-o"></i>
+                    <span class="theme-text" style="margin-left:5px">Dark</span>
+                </button>
+
+                    <button type="button" class="nav-login-btn" @click="handleLoginClick">
+                        <img v-if="isLoggedIn" src="./Lo_images/default-pfp.png" class="profile-icon" alt="Profile">
+                        <span v-else>{{ loginText }}</span>
+                    </button>
+                    </div>
+            </nav>
+        </div>
+
+
+
+
+        <div class="profile-wrapper">
+            <div class="profile-sidebar">
+                <div class="profile-header">
+                    <h1>TRP</h1>
+                </div>
+                <div class="profile-nav">
+                    <ul>
+                        <li><a href="./profile.html">profile</a></li>
+                        <li><a href="#">liked songs</a></li>
+                        <li><a href="#">genres</a></li>
+                        <li><a href="#">lists</a></li>
+                        <li><a href="#">account</a></li>
+                        <!--<li>
+                            <li><a href="#">new music</a></li>
+                            <li><a href="#">charts</a></li>
+                            <a href="#">subscribe</a></li>-->
+                    </ul>
+                    <!--<div class="search-box">
+                        <input type="text" placeholder="Search...">
+                    </div>-->
+                </div>
+
+                <div class="user-info">
+                    <p></p> <!-- customisable description, input it based on profile creation, age / gender -->
+                    <ul style="padding-top: 20px;">
+                       <!--<li><a href="#">Inbox</a></li>
+                        <li><a href="#" style="padding-left: 10px;">0 messages / 0 new</a></li>-->
+
+                    <!-- <li><a href="#">photos</a></li> -->
+                        <!--<li><a href="#">friends</a></li>-->
+                    </ul>
+                </div>
+            </div>
+
+            <div class="profile-main">
+                <div class="profile-content">
+                    <div class="profile-username">
+                        <h2><span>Profile</span></h2> <!-- id="displayName"-->
+                    </div>
+
+                    <!--<div id="avatar"></div>
+                    <div class="profile-divider"></div>
+                    <div class="user-info-box">
+                        <p><strong>Username: </strong><span id="displayName"></span></p>
+                        <p><strong>Age/Sex: </strong><span id="age-sex"></span></p>
+                        <p><strong>Country: </strong><span id="country"></span></p>
+                        <p><strong>Description: </strong><span id="description" contenteditable="true"></span></p>
+                    </div>-->
+                    <div class="profile-header-container">
+                        <div id="avatar"></div>
+                        <div class="user-info-box">
+                            <!-- user info content here -->
+                            <p><strong>username: </strong><span id="displayName"></span></p>
+                            <!-- <p><strong>birthday: </strong><span id="age-sex"></span></p>
+                            <p><strong>country: </strong><span id="country"></span></p> -->
+                            <p><span id="description" type="text" contenteditable="true" placeholder="Enter a description here!"></span></p>
+                            <!--try input later when or if trying to put in mysql-->
+                        </div>
+                    </div>
+                    <div class="profile-divider"></div>
+
+
+                    <!--
+                    <div class="profile-section">
+                        <h3>listening to...</h3>
+                        <p></p> some respective key that grabs whatever was last played through the music tab?
+                    </div>
+
+                    <div class="profile-section">
+                        <h3>play history (0)</h3> change this to an id that matches what songs theyve played on here in total
+                    </div>-->
+
+                                                                    <!-- LISTENING TO-->
+                    <div class="profile-section" id="listening-section">
+                        <div class="listening-header">
+                            <h3>listening to...</h3>
+                            <button class="set-button" id="set-listening-btn">set</button>
+                        </div>
+                        <div id="listening-content">
+                            <p id="current-listening">nothing currently playing</p>
+                            <a id="listening-date"></a>
+                            <a id="listening-user"></a>
+                        </div>
+                    </div>
+                    <div id="listening-modal" class="modal" style="display: none;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>listening to...</h3>
+                                <span class="close-modal">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <p>enter album shortcut, or write a plain text comment</p>
+                                <textarea id="listening-input" placeholder="What are you listening to?"></textarea>
+                                <div class="modal-footer">
+                                    <button id="save-listening">save</button>
+                                    <button id="cancel-listening">cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <!-- ^^^^^ LISTENING TO-->
+
+
+
+
+                    <div class="profile-section">
+                        <div class="play-history-header">
+                            <h3>play history (<span id="play-count">0</span>)</h3>
+                            <a href="play-history.html" class="view-history-btn">view all</a>
+                        </div>
+                        <div id="recent-plays">
+                            <!-- Recent plays will be populated here -->
+                        </div>
+                    </div>
+
+                   <!-- <div class="profile-section">
+                        <h3>favorite artists</h3>
+                        <p></p> customisable description section, users can edit this and save it to their profiles
+                    </div>-->
+
+                    <div class="profile-section collapsible-section">
+                        <div class="collapsible-header" onclick="withinprofiles()">
+                            <h3>user profile info</h3>
+                            <span class="toggle-arrow">
+                                <i class="fa fa-chevron-down"></i>
+                                <span class="toggle-text">show</span>
+                            </span>
+                        </div>
+                        <div class="collapsible-content" style="display: none;">
+                            <div id="profile">
+                                <div id="profile-container">
+                                    <p class="prompt-message">loading profile...</p>
+                                </div>
+                                <!--<div id="avatar"></div>-->
+                                <!--<p><strong>Name:</strong> <span id="displayName"></span></p>-->
+                                <p><strong>ID:</strong> <span id="id"></span></p>
+                                <p><strong>Email:</strong> <span id="email"></span></p>
+                                <p><strong>Spotify URI: </strong><a id="uri">Spotify URI</a></p>
+                                <p><strong>API URL: </strong><a id="url">Api uRI</a></p>
+                                <p><strong>Profile Image URL: </strong> <span id="imgUrl"></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--<div>
+            <section class="content-wrapper" v-if="profile">
+                <div class="retro-box">
+                    <h1>User Profile</h1>
+                    <div id="profile">
+                        <div id="profile-container">
+                            <p class="prompt-message">Loading profile...</p>
+                            </div>
+
+                        <div id="avatar"></div>
+                        <p><strong>Name:</strong> <span id="displayName"></span></p>
+                        <p><strong>ID:</strong> <span id="id"></span></p>
+                        <p><strong>Email:</strong> <span id="email"></span></p>
+                        <p><strong>Spotify URI:</strong><a id="uri">Spotify URI</a></p>
+                        <p><strong>API URL:</strong><a id="url">Api uRI</a></p>
+                    </div>
+                </div>
+            </section>
+        </div>-->
+
+            <!-- <section v-else class="content-wrapper">
+                <div class="retro-box">
+                    <p>Loading profile...</p>
+                </div>
+            </section>-->
+
+
+
+
+
+
+
+
+            <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+            <script src="./scripts/script.js"></script>
+        <script>
+            Vue.createApp({
+                    data() {
+                        return {
+                            tabs: [
+                                { title: 'home', url: '/index.html' },
+                                { title: 'library', url: '/library.html' },
+                                { title: 'music', url: '/music.html' },
+                                //{ title: 'ratings', url: '/ratings.html' },
+                            ]
+                        };
+                    },
+                    methods: {
+                        activating(item) {
+                            return window.location.pathname.endsWith(item.url);
+                        }
+                    }
+                }).mount('#app');
+
+
+
+
+
+
+            function withinprofiles() {
+                const content = document.querySelector('.collapsible-content');
+                const arrow = document.querySelector('.toggle-arrow i');
+                const text = document.querySelector('.toggle-text');
+
+                if (content.style.display === 'none') {
+                    content.style.display = 'block';
+                    arrow.classList.remove('fa-chevron-down');
+                    arrow.classList.add('fa-chevron-up');
+                    text.textContent = 'hide';
+                } else {
+                    content.style.display = 'none';
+                    arrow.classList.remove('fa-chevron-up');
+                    arrow.classList.add('fa-chevron-down');
+                    text.textContent = 'show';
+                }
+            }
+
+
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const modal = document.getElementById('listening-modal');
+                const setBtn = document.getElementById('set-listening-btn');
+                const closeBtn = document.querySelector('.close-modal');
+                const cancelBtn = document.getElementById('cancel-listening');
+                const saveBtn = document.getElementById('save-listening');
+
+                setBtn.addEventListener('click', function() {
+                    modal.style.display = 'block';
+                });
+
+                closeBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+
+                cancelBtn.addEventListener('click', function() {
+                    modal.style.display = 'none';
+                });
+
+                saveBtn.addEventListener('click', function() {
+                    const input = document.getElementById('listening-input').value;
+                    if (input) {
+                        document.getElementById('current-listening').textContent = input;
+                        document.getElementById('listening-date').textContent = new Date().toLocaleDateString();
+                        document.getElementById('listening-user').textContent = document.getElementById('displayName').textContent;
+                        /* CHANGE LATER RESPECTIVELY to also ALLOW for id via mysql if possible */
+                        modal.style.display = 'none';
+
+                        const playCount = document.getElementById('play-count');
+                        playCount.textContent = parseInt(playCount.textContent) + 1;
+                        const recentPlays = document.getElementById('recent-plays');
+                        const playEntry = document.createElement('div');
+                        playEntry.className = 'play-entry';
+                        playEntry.innerHTML = `
+                            <p>${input}</p>
+                            <p>${new Date().toLocaleDateString()}</p>
+                        `;
+                        recentPlays.prepend(playEntry);
+                    }
+                });
+
+                window.addEventListener('click', function(event) {
+                    if (event.target === modal) {
+                        modal.style.display = 'none';
+                    }
+                });
+            });
+
+        </script>
+        <script type="module">
+            import { timeForThemes } from './scripts/theme.js';
+            timeForThemes();
+
+            import { spotifyingAuthCat } from './scripts/script.js';
+                spotifyingAuthCat();
+            </script>
+    </body>
+
+    </html>

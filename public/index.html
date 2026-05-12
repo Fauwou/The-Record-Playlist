@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+        <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA////ADs3MgArKysAoWVQANnV0AD88u4A8cm4AJqYlQB8TDcAVFFMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAERJmQAAAABERJmZmQAABERJmZmZkABERHd3d5mZAERHIiMzeZkERHIiIzM3mZREcoEjMzeZlERyohUzN5mURHIiFTM3mUREYiIjMzeUREQSIiMzN0RAREciIzN0RABERHd3d0REAAREREREREAAAEREREREAAAAAERERAAAD4HwAA4AcAAMADAACAAQAAgAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIABAACAAQAAwAMAAOAHAAD4HwAA" rel="icon" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>The Record Playlist</title>
+</head>
+
+<body>
+    <div id="app">
+        <nav class="navbar"> <!--id="main"-->
+            <div class="navbar-left"><!--id="nav"-->
+                <img src="./Lo_images/176521.png" style="height: 34px;" alt="mis.">
+                <a href="index.html" class="logo">The Record Playlist</a> <!-- <a style="color:white;"> |</a>-->
+            </div>
+            <div class="navbar-center">
+                <ul class="nav-links">
+                    <li v-for="item in tabs" :key="item">
+                        <a :href="item.url" :class="{ 'active-tab': activating(item) }"> {{ item.title }} </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="navbar-right">
+                <!--<div class="button-groupss">-->
+                <!--<div class="search-container">id="search-bar"
+                    <i class="fa fa-search"></i>
+                    <input type="search" placeholder="search">
+                </div>
+            </div>-->
+
+            <button type="button" class="theme-toggle">
+                <i class="fa fa-moon-o"></i>
+                <span class="theme-text" style="margin-left:5px">Dark</span>
+            </button>
+
+                <button type="button" class="nav-login-btn" @click="handleLoginClick"> <!--@click="handleLoginClick"-->
+                    <img v-if="isLoggedIn" src="./Lo_images/default-pfp.png" class="profile-icon" alt="Profile">
+                    <span v-else>{{ loginText }}</span> <!--onclick="loginauthenticate()-->
+                </button>
+                </div>
+        </nav>
+    </div>
+
+
+
+
+
+
+
+    <section class="content-wrapper">
+        <div class="retro-box">
+            <h1>welcome to The Record Playlist</h1>
+            <p>this section is a section. put whatever works kinda good as text.</p> <!--its not a section-->
+        </div>
+    </section>
+
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module">
+        import { timeForThemes } from './scripts/theme.js';
+
+        Vue.createApp({
+            data() {
+                return {
+                    tabs: [
+                        { title: 'home', url: '/index.html' },
+                        { title: 'library', url: '/library.html' },
+                        { title: 'music', url: '/music.html' },
+                       // { title: 'ratings', url: '/ratings.html' },
+                        /*{ title: 'Login', url: '/login' }*/
+                    ],
+                    /*loggers: [
+                     { title: 'log in', url: '/login' }
+                    ],*/
+                    loginText: 'log in',
+                    isloggingin: false
+                };
+            },
+            methods: {
+                activating(item) {
+                    return window.location.pathname.endsWith(item.url);
+                },
+                /*accessing(icon) {
+                    return window.location.pathname.endsWith(icon.url);
+                   },*/
+                handleLoginClick() {
+                    if (!this.isloggingin) {
+                        window.location.href = '/login.html';
+                    } else {
+                        window.location.href = '/profile.html';
+                    }
+                }
+            }
+        }).mount('#app');
+
+        timeForThemes();
+    </script>
+</body>
+
+</html>

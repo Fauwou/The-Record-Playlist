@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module" src="./scripts/script.js" defer></script>
+   <!-- <script type="module" src="./scripts/main.js" defer></script>-->
+
+    <title>The Record Playlist</title>
+    <style>
+        body {
+            background-color: #1b1b1b;
+            color: #bcc9d6;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #292626;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #f77a51;
+            width: 300px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #f77a51;
+            margin-bottom: 20px;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background-color: #1b1b1b;
+            border: 1px solid #f77a51;
+            color: #bcc9d6;
+            border-radius: 5px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            background-color: #f77a51;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-container button:hover {
+            background-color: #e06945;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        a.back-home {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        a.back-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="login-container">
+        <h2>Log In</h2>
+        <form id="loginForm"  @submit.prevent="handleLocalLogin">
+            <input type="text" id="username" name="username" placeholder="Username" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Log In</button>
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+            <!--<button href="#" type="button">Register</button>-->
+
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #444;">
+
+        <button type="button" id="spotifyLoginBtn" style="margin-bottom: 10px;"> <!--@click="handleLoginClick" -->
+            <i class="fa fa-spotify"></i> Log in with Spotify</button>
+
+        <a class="back-home" href="/index.html">← Back to Home</a>
+    </div>
+
+
+
+
+
+
+    <script type="module">
+        import { client_ID, spotifyingAuthCat } from './scripts/script.js';
+
+        document.getElementById('spotifyLoginBtn').addEventListener('click', () => {
+            spotifyingAuthCat();
+        });
+    </script>
+</body>
+</html>
